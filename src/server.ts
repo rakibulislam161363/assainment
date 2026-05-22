@@ -1,12 +1,12 @@
-import express from "express"
+import app from "./app";
+import config from "./config";
+import { initDB } from "./db";
 
-const app = express();
+const main = () => {
+  initDB();
 
-
-app.get("/", ()=>{
-    console.log("This is get methord")
-})
-
-app.listen(5000, async()=>{
-    console.log("server is running")
-})
+  app.listen(config.port, () => {
+    console.log(`Server running on ${config.port}`);
+  });
+};
+main();
