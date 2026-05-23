@@ -26,12 +26,12 @@ export const initDB = async () => {
       description TEXT,
       type VARCHAR(50) CHECK (type IN ('bug','feature_request')),
       status VARCHAR(50) CHECK (status IN ('open','in_progress','resolved')),
-      reporter INT REFERENCES users(id) ON DELETE CASCADE,
+      reporter_id INT REFERENCES users(id) ON DELETE CASCADE,
       created_at TIMESTAMP DEFAULT NOW(),
       updated_at TIMESTAMP DEFAULT NOW()
       ) 
-      `);        
-            
+      `);
+
     console.log("database connected succssesfully");
   } catch (error) {
     console.log(error);

@@ -1,7 +1,7 @@
 import { pool } from "../../db";
 
 const issuesIntoDB = async (payLoad: any) => {
-  const { title, description, type, status, reporter } = payLoad;
+  const { title, description, type, status, reporter_id } = payLoad;
   const result = await pool.query(
     `
   INSERT INTO issues(
@@ -9,32 +9,15 @@ const issuesIntoDB = async (payLoad: any) => {
     description,
     type,
     status,
-    reporter
+    reporter_id
   )
   VALUES($1,$2,$3,$4,$5)
   RETURNING *
   `,
-    [title, description, type, status, reporter],
+    [title, description, type, status, reporter_id],
   );
 
-  const issue = await pool.query(
-    `
-  SELECT 
-    issues.*,
-
-    json_build_object(
-      'id', users.id,
-      'name', users.name,
-      'role', users.role
-    ) AS reporter
-
-  FROM issues
-  JOIN users ON issues.reporter = users.id
-  WHERE issues.id = $1
-  `,
-    [result.rows[0].id],
-  );
-  return issue;
+  return result;
 };
 
 export const issuesService = {
