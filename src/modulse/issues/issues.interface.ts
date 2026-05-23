@@ -3,5 +3,5 @@ export interface Issues {
   description: string;
   type: string;
   status: string;
-  
+  reporter_id: string;
 }
