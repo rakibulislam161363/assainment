@@ -15,6 +15,8 @@ const loginUserIntoDB = async (payload: {
     `,
     [email],
   );
+
+
   if (userData.rows.length === 0) {
     throw new Error("Invalid Credentials!");
   }
@@ -45,8 +47,9 @@ const loginUserIntoDB = async (payload: {
   const refreshToken = jwt.sign(jwtpayload, config.refreshSecret as string, {
     expiresIn: "1d",
   });
+    delete userData.rows[0].password;
 
-  return { accessToken, refreshToken };
+  return { accessToken, refreshToken, user};
 };
 
 const generateRefreshToken = async (token: string) => {
